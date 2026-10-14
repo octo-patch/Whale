@@ -1,3 +1,8 @@
+> [!IMPORTANT]
+> **本仓库不再维护。** 如有需要，请使用官方 harness：[DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)。
+>
+> 正在构建 [wirebox.sh](http://wirebox.sh) —— AI Agent 的身份与通信层。
+
 # Whale
 
 <p align="center">
@@ -141,9 +146,9 @@ return agent("综合两边的发现，写一份简洁指南");
 
 ## 📦 项目状态
 
-Whale 仍在快速迭代中。建议先用于个人项目、实验仓库或可回滚的开发流程。
+**⚠️ 已停止维护。** 本项目已停止开发。如有需要，请使用官方的 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)。
 
-> **免责声明：** 本项目与 DeepSeek Inc. 无关，系独立开源社区项目。
+> **免责声明：** 本项目与 DeepSeek Inc. 无关，曾为独立开源社区项目。
 
 ---
 
