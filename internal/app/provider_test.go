@@ -191,6 +191,46 @@ func TestNewMiniMaxProviderUsesConfiguredEndpoint(t *testing.T) {
 	}
 }
 
+func TestNewMiniMaxFlashSendsAdaptiveThinkingAndEffort(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var payload map[string]any
+		if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
+			t.Fatalf("decode request body: %v", err)
+		}
+		thinking, ok := payload["thinking"].(map[string]any)
+		if !ok || thinking["type"] != "adaptive" {
+			t.Fatalf("thinking = %#v, want adaptive", payload["thinking"])
+		}
+		if payload["reasoning_effort"] != "max" {
+			t.Fatalf("reasoning_effort = %v, want max", payload["reasoning_effort"])
+		}
+		if _, ok := payload["reasoning_split"]; ok {
+			t.Fatalf("Flash request unexpectedly contains reasoning_split: %#v", payload["reasoning_split"])
+		}
+		w.Header().Set("Content-Type", "text/event-stream")
+		_, _ = fmt.Fprint(w, `data: {"choices":[{"delta":{"content":"ok"},"finish_reason":"stop"}]}
+
+`)
+		_, _ = fmt.Fprint(w, "data: [DONE]\n\n")
+	}))
+	defer srv.Close()
+
+	provider, err := newProvider(providerOptions{
+		Provider:        "minimax",
+		MiniMax:         MiniMaxProviderConfig{APIKey: "test-minimax-key", BaseURL: srv.URL},
+		Model:           "MiniMax-M3.1-Flash",
+		ReasoningEffort: "max",
+	})
+	if err != nil {
+		t.Fatalf("newProvider: %v", err)
+	}
+	for ev := range provider.StreamResponse(context.Background(), []core.Message{{Role: core.RoleUser, Text: "hi"}}, nil) {
+		if ev.Type == llm.EventError {
+			t.Fatalf("provider error: %v", ev.Err)
+		}
+	}
+}
+
 func TestNewMiniMaxProviderSupportsDisabledThinking(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var payload map[string]any

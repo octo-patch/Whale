@@ -43,6 +43,7 @@ func ApplyFileConfig(cfg *Config, file FileConfig) error {
 	}
 	if strings.TrimSpace(file.ReasoningEffort) != "" {
 		cfg.ReasoningEffort = strings.TrimSpace(file.ReasoningEffort)
+		cfg.ReasoningEffortExplicit = true
 	}
 	if file.ThinkingEnabled != nil {
 		cfg.ThinkingEnabled = *file.ThinkingEnabled
@@ -275,8 +276,9 @@ func overlayExplicitConfig(dst *Config, src Config) {
 	if src.BudgetWarningUSD != def.BudgetWarningUSD {
 		dst.BudgetWarningUSD = src.BudgetWarningUSD
 	}
-	if strings.TrimSpace(src.ReasoningEffort) != "" && src.ReasoningEffort != def.ReasoningEffort {
+	if src.ReasoningEffortExplicit || (strings.TrimSpace(src.ReasoningEffort) != "" && src.ReasoningEffort != def.ReasoningEffort) {
 		dst.ReasoningEffort = src.ReasoningEffort
+		dst.ReasoningEffortExplicit = src.ReasoningEffortExplicit
 	}
 	if src.ThinkingEnabled != def.ThinkingEnabled {
 		dst.ThinkingEnabled = src.ThinkingEnabled

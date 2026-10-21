@@ -5,10 +5,13 @@ import "strings"
 const (
 	DefaultModel                 = "deepseek-v4-flash"
 	ProModel                     = "deepseek-v4-pro"
+	MiniMaxM31FlashModel         = "MiniMax-M3.1-Flash"
+	MiniMaxM3Model               = "MiniMax-M3"
 	DefaultReasoningEffort       = "high"
 	DefaultThinkingEnabled       = true
 	DefaultContextWindow         = 128_000
 	DeepSeekV4ContextWindow      = 1_000_000
+	MiniMaxM31FlashContextWindow = 1_000_000
 	MiniMaxM3ContextWindow       = 1_000_000
 	MiniMaxM27ContextWindow      = 204_800
 	DefaultAutoCompactThreshold  = 0.85
@@ -26,7 +29,8 @@ const (
 var supportedModels = []string{
 	DefaultModel,
 	ProModel,
-	"MiniMax-M3",
+	MiniMaxM31FlashModel,
+	MiniMaxM3Model,
 	"MiniMax-M2.7",
 }
 
@@ -43,7 +47,7 @@ func SupportedModels() []string {
 func IsSupportedModel(model string) bool {
 	m := strings.ToLower(strings.TrimSpace(model))
 	for _, supported := range supportedModels {
-		if m == supported {
+		if strings.EqualFold(m, supported) {
 			return true
 		}
 	}
@@ -59,8 +63,12 @@ func IsDeepSeekV4Model(model string) bool {
 	return strings.Contains(m, DefaultModel) || strings.Contains(m, ProModel)
 }
 
+func IsMiniMaxM31FlashModel(model string) bool {
+	return strings.EqualFold(strings.TrimSpace(model), MiniMaxM31FlashModel)
+}
+
 func IsMiniMaxM3Model(model string) bool {
-	return strings.EqualFold(strings.TrimSpace(model), "MiniMax-M3")
+	return strings.EqualFold(strings.TrimSpace(model), MiniMaxM3Model)
 }
 
 func IsMiniMaxM27Model(model string) bool {
@@ -74,6 +82,9 @@ func ContextWindowForModel(model string) int {
 	}
 	if IsDeepSeekV4Model(model) {
 		return DeepSeekV4ContextWindow
+	}
+	if IsMiniMaxM31FlashModel(model) {
+		return MiniMaxM31FlashContextWindow
 	}
 	if IsMiniMaxM3Model(model) {
 		return MiniMaxM3ContextWindow

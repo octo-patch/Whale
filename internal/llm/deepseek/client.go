@@ -64,9 +64,10 @@ type MultimodalConfig struct {
 }
 
 type ChatCompletionsThinkingConfig struct {
-	EnabledType    string
-	Omit           bool
-	ReasoningSplit bool
+	EnabledType     string
+	Omit            bool
+	ReasoningSplit  bool
+	ReasoningEffort bool
 }
 
 func WithBaseURL(v string) Option {
@@ -387,6 +388,9 @@ func (c *Client) applyChatCompletionsThinking(payload map[string]any, includeDef
 	}
 	if cfg.ReasoningSplit {
 		payload["reasoning_split"] = true
+	}
+	if cfg.ReasoningEffort && strings.TrimSpace(c.reasoningEffort) != "" {
+		payload["reasoning_effort"] = c.reasoningEffort
 	}
 }
 

@@ -39,6 +39,7 @@ type Config struct {
 	Model                          string
 	ModelExplicit                  bool
 	ReasoningEffort                string
+	ReasoningEffortExplicit        bool
 	ThinkingEnabled                bool
 	CheckForUpdateOnStartup        bool
 	ViewMode                       string

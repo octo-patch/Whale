@@ -254,6 +254,7 @@ func prepareCLIConfig(cmd *cobra.Command, opts *cliOptions) error {
 			return err
 		}
 		cfg.ReasoningEffort = effort
+		cfg.ReasoningEffortExplicit = true
 	}
 	if flagChanged(cmd, "dangerously-skip-permissions") && opts.dangerouslySkipPermissions {
 		cfg.PermissionDefault = "allow"

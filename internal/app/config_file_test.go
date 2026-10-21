@@ -7,6 +7,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/usewhale/whale/internal/defaults"
 	"github.com/usewhale/whale/internal/llm/deepseek"
 	"github.com/usewhale/whale/internal/plugins"
 	"github.com/usewhale/whale/internal/policy"
@@ -191,7 +192,7 @@ func TestMiniMaxProviderUsesProviderDefaultModel(t *testing.T) {
 	if err != nil {
 		t.Fatalf("LoadAndApplyConfig: %v", err)
 	}
-	if defaultModelForProvider(loaded.Provider) != "MiniMax-M3" {
+	if defaultModelForProvider(loaded.Provider) != defaults.MiniMaxM31FlashModel {
 		t.Fatalf("provider default model = %s", defaultModelForProvider(loaded.Provider))
 	}
 }

@@ -9,6 +9,8 @@ func TestContextWindowForModel(t *testing.T) {
 		want  int
 	}{
 		{"v4 flash", "deepseek-v4-flash", DeepSeekV4ContextWindow},
+		{"minimax flash", MiniMaxM31FlashModel, MiniMaxM31FlashContextWindow},
+		{"minimax m3", MiniMaxM3Model, MiniMaxM3ContextWindow},
 		{"v4 pro", "deepseek-v4-pro", DeepSeekV4ContextWindow},
 		{"v4 flash mixed case", "DeepSeek-V4-Flash", DeepSeekV4ContextWindow},
 		{"v4 pro padded", "  deepseek-v4-pro  ", DeepSeekV4ContextWindow},
@@ -36,6 +38,14 @@ func TestIsSupportedModel(t *testing.T) {
 	for _, model := range []string{"deepseek-chat", "deepseek-reasoner", "", "gpt-4o"} {
 		if IsSupportedModel(model) {
 			t.Fatalf("expected %q to be unsupported", model)
+		}
+	}
+}
+
+func TestIsSupportedModelIncludesMiniMaxModels(t *testing.T) {
+	for _, model := range []string{MiniMaxM31FlashModel, MiniMaxM3Model, "MiniMax-M2.7", "minimax-m3.1-flash"} {
+		if !IsSupportedModel(model) {
+			t.Fatalf("expected %q to be supported", model)
 		}
 	}
 }

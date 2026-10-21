@@ -16,7 +16,7 @@ const (
 	DefaultBaseURL   = "https://api.minimax.io/v1"
 	CNBaseURL        = "https://api.minimaxi.com/v1"
 	DefaultAPIKeyEnv = "MINIMAX_API_KEY"
-	DefaultModel     = "MiniMax-M3"
+	DefaultModel     = defaults.MiniMaxM31FlashModel
 )
 
 type Options struct {
@@ -24,6 +24,7 @@ type Options struct {
 	APIKeyEnv         string
 	BaseURL           string
 	Model             string
+	ReasoningEffort   string
 	ThinkingEnabled   bool
 	MaxTokens         int
 	RetryPolicy       llmretry.Policy
@@ -51,10 +52,14 @@ func New(opts Options) (llm.Provider, error) {
 	if baseURL == "" {
 		baseURL = DefaultBaseURL
 	}
-	thinkingEnabled := opts.ThinkingEnabled || defaults.IsMiniMaxM27Model(model)
+	thinkingEnabled := opts.ThinkingEnabled || defaults.IsMiniMaxM27Model(model) || defaults.IsMiniMaxM31FlashModel(model)
 	thinkingConfig := deepseek.ChatCompletionsThinkingConfig{
 		EnabledType:    "adaptive",
 		ReasoningSplit: true,
+	}
+	if defaults.IsMiniMaxM31FlashModel(model) {
+		thinkingConfig.ReasoningEffort = true
+		thinkingConfig.ReasoningSplit = false
 	}
 	if defaults.IsMiniMaxM27Model(model) {
 		thinkingConfig.Omit = true
@@ -63,6 +68,7 @@ func New(opts Options) (llm.Provider, error) {
 		deepseek.WithAPIKey(apiKey),
 		deepseek.WithBaseURL(baseURL),
 		deepseek.WithModel(model),
+		deepseek.WithReasoningEffort(opts.ReasoningEffort),
 		deepseek.WithThinking(thinkingEnabled),
 		deepseek.WithChatCompletionsThinking(thinkingConfig),
 	}

@@ -58,6 +58,7 @@ func newMiniMaxProvider(opts providerOptions) (llm.Provider, error) {
 		APIKeyEnv:         opts.MiniMax.APIKeyEnv,
 		BaseURL:           baseURL,
 		Model:             opts.Model,
+		ReasoningEffort:   opts.ReasoningEffort,
 		ThinkingEnabled:   opts.ThinkingEnabled,
 		MaxTokens:         opts.MaxTokens,
 		RetryPolicy:       opts.RetryPolicy,

@@ -9,6 +9,7 @@ func TestContextWindowForModel(t *testing.T) {
 	}{
 		{model: "deepseek-v4-flash", want: 1_000_000},
 		{model: "deepseek-v4-pro", want: 1_000_000},
+		{model: "MiniMax-M3.1-Flash", want: 1_000_000},
 		{model: "MiniMax-M3", want: 1_000_000},
 		{model: "MiniMax-M2.7", want: 204_800},
 		{model: "deepseek-chat", want: 128_000},

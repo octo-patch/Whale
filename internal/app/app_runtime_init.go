@@ -23,6 +23,9 @@ func initAppRuntime(cfg Config, sessionInit appSessionInit, toolInit appToolInit
 		cfg.Model = model
 	}
 	effort := normalizeEffort(core.FirstNonEmpty(strings.TrimSpace(cfg.ReasoningEffort), defaults.DefaultReasoningEffort))
+	if strings.EqualFold(strings.TrimSpace(cfg.Provider), "minimax") && defaults.IsMiniMaxM31FlashModel(model) && !cfg.ReasoningEffortExplicit {
+		effort = "max"
+	}
 	viewMode, err := NormalizeViewMode(cfg.ViewMode)
 	if err != nil {
 		return appRuntimeInit{}, err
