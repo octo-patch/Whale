@@ -1,3 +1,8 @@
+> [!IMPORTANT]
+> **This repository is no longer maintained.** If needed, please use the official harness: [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness).
+>
+> Building [wirebox.sh](http://wirebox.sh) — The identity and communication layer for AI agents.
+
 # Whale
 
 <p align="center">
@@ -144,10 +149,9 @@ Whale currently offers three interfaces — with more environments on the way:
 
 ## 📦 Project Status
 
-Whale is in active development. Best suited for personal projects, experimental repositories,
-and workflows where changes can be reviewed and rolled back.
+**⚠️ No longer maintained.** This project has been discontinued. If needed, please use the official [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness).
 
-> **Disclaimer:** This project is not affiliated with DeepSeek Inc. It is an independent open-source community project.
+> **Disclaimer:** This project is not affiliated with DeepSeek Inc. It was an independent open-source community project.
 
 ---
 
